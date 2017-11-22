@@ -1,0 +1,24 @@
+{
+  "name": "shopping",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./dist/index.js",
+    "startShow": "node ./dist/index.js showChrome"
+  },
+  "author": "Josh Stearns",
+  "license": "ISC",
+  "dependencies": {
+    "chromy": "^0.4.8",
+    "rxjs": "^5.4.3"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.0.4",
+    "@types/mocha": "^2.2.43",
+    "chai": "^4.1.2",
+    "mocha": "^3.5.3",
+    "typescript": "^2.5.2"
+  }
+}

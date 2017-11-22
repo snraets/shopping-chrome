@@ -1,106 +1,107 @@
-import * as Chromy from 'chromy';
+// import * as Chromy from 'chromy';
 import * as fs from 'fs';
 
 import { directory } from './createArchive';
 
-//--disable-gpu
+const standardPicture = async (site, chromy) => {
 
-const defaultChromeOptions = {
-    visible: process.argv[2] ? true : false,
-    chromeFlags: [
-        '--window-size=1800,2000',
-        '--disable-search-geolocation-disclosure'
-    ]
-};
-
-const standardPicture = (site) => {
-
-    let chromy = new Chromy(defaultChromeOptions);
+    let png;
 
     try {
-        return chromy.chain()
-            .goto(site.url)
-            .scrollTo(0, 0)
-            .screenshot({fromSurface: true})
-            .result( png => fs.writeFileSync(`${directory()}/${site.Code}.png`, png))
-            .end()
-            .then(() => chromy.close());
+        await chromy.goto(site.url);
+        await chromy.scrollTo(0, 0);
+        // png = await chromy.screenshotDocument({fromSurface: true})
+        png = await chromy.screenshot({fromSurface: true});
+        fs.writeFileSync(`${directory()}/${site.Code}.png`, png);
+
     } catch (error) {
+        console.log(error);
         return Promise.resolve();
     }
 };
 
-const bannanaRepublicGap = site => {
+const bannanaRepublicGap = async (site, chromy) => {
 
-    let chromy = new Chromy(defaultChromeOptions);
-
-    return chromy.chain()
-        .goto(site.url)
-        .wait(500)
-        // .click('body > div.optly-modal > div.optly-modal-content > span')
-        .wait(200)
-        .scrollTo(0, 0)
-        .screenshot({fromSurface: true})
-        .result( png => fs.writeFileSync(`${directory()}/${site.Code}.png`, png))
-        .end()
-        .then(() => chromy.close());
-
-};
-
-const costcoPicture = (site) => {
-
-    let chromy = new Chromy(defaultChromeOptions);
+    let png;
 
     try {
-        return chromy.chain()
-            .goto('https://www.costco.com/LogonForm')
-            .insert('#logonId', 'Djwinfield@verizon.net')
-            .insert('#logonPassword', '3911clar')
-            .click('[value="Sign In"]')
-            .wait(2000)
-            .goto(site.url)
-            .scrollTo(0, 0)
-            .screenshot({fromSurface: true})
-            .result( png => fs.writeFileSync(`${directory()}/${site.Code}.png`, png))
-            .end()
-            .then(() => chromy.close());
-    } catch (err) {
+        await chromy.goto(site.url);
+        await chromy.wait(500);
+        await chromy.scrollTo(0, 0);
+        // png = await chromy.screenshotDocument({fromSurface: true})
+        png = await chromy.screenshot({fromSurface: true});
+        fs.writeFileSync(`${directory()}/${site.Code}.png`, png);
+    } catch (error) {
+        console.log(error);
         return Promise.resolve();
     }
 };
 
-const kmart = site => {
+const costcoPicture = async (site, chromy) => {
 
-    let chromy = new Chromy(defaultChromeOptions);
-    
-        try {
-            return chromy.chain()
-                .goto(site.url)
-                .wait(1000)
-                .scrollTo(0, 0)
-                .screenshot({fromSurface: true})
-                .result( png => fs.writeFileSync(`${directory()}/${site.Code}.png`, png))
-                .end()
-                .then(() => chromy.close());
-        } catch (error) {
-            return Promise.resolve();
-        }
+    let png;
+
+    try {
+        await chromy.goto('https://www.costco.com/LogonForm');
+        await chromy.insert('#logonId', 'Djwinfield@verizon.net');
+        await chromy.insert('#logonPassword', '3911clar');
+        await chromy.click('[value="Sign In"]');
+
+        await chromy.wait(2000);
+        await chromy.goto(site.url);
+        await chromy.wait(500);
+        await chromy.scrollTo(0, 0);
+
+        // png = await chromy.screenshotDocument({fromSurface: true});
+        png = await chromy.screenshot({fromSurface: true});
+        fs.writeFileSync(`${directory()}/${site.Code}.png`, png);
+
+        await chromy.click('#myaccount-d');
+        await chromy.wait(1000);
+        await chromy.evaluate(() => { document.querySelector('[value="Sign Out"]').click(); });
+        await chromy.wait(2000);
+
+    } catch (error) {
+        console.log(error);
+        return Promise.resolve();
+    }
 };
 
-const officeDepot = site => {
+const kmart = async (site, chromy) => {
 
-    let chromy = new Chromy(defaultChromeOptions);
+    let png;
 
-    return chromy.chain()
-        .goto(site.url)
-        .wait(1500)
-        .click('#bx-close-inside-530404')
-        .wait(1000)
-        .scrollTo(0, 0)
-        .screenshot({fromSurface: true})
-        .result( png => fs.writeFileSync(`${directory()}/${site.Code}.png`, png))
-        .end()
-        .then(() => chromy.close());
+    try {
+        await chromy.goto(site.url);
+        await chromy.wait(500);
+        await chromy.scrollTo(0, 0);
+        await chromy.wait(3000);
+        // png = await chromy.screenshotDocument({fromSurface: true})
+        png = await chromy.screenshot({fromSurface: true});
+        fs.writeFileSync(`${directory()}/${site.Code}.png`, png);
+    } catch (error) {
+        console.log(error);
+        return Promise.resolve();
+    }
+};
+
+const officeDepot = async(site, chromy) => {
+
+    let png;
+
+    try {
+        await chromy.goto(site.url);
+        await chromy.wait(1500);
+        await chromy.scrollTo(0, 0);
+        await chromy.wait(3000);
+        await chromy.click('#bx-close-inside-530404');
+        // png = await chromy.screenshotDocument({fromSurface: true})
+        png = await chromy.screenshot({fromSurface: true});
+        fs.writeFileSync(`${directory()}/${site.Code}.png`, png);
+    } catch (error) {
+        console.log(error);
+        return Promise.resolve();
+    }
 
 };
 
